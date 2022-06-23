@@ -12,8 +12,8 @@ index = {"__all__": "typing_basics.ipynb",
          "PCATransform": "dimensionality_reduction.ipynb"}
 
 modules = ["chem_basics.py",
-           "unsupervised_learning.py",
-           "transform/transform.py",
+           "unsupervised_learning/clustering.py",
+           "unsupervised_learning/transform.py",
            "typing_basics.py"]
 
 doc_url = "https://marcossantanaioc.github.io/molcluster/"

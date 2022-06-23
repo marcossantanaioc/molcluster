@@ -44,21 +44,6 @@ nb_path: "clustering.ipynb"
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The autoreload extension is already loaded. To reload it, use:
-  %reload_ext autoreload
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -87,7 +72,7 @@ nb_path: "clustering.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="BaseClustering" class="doc_header"><code>class</code> <code>BaseClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BaseClustering</code>()</p>
+<h2 id="BaseClustering" class="doc_header"><code>class</code> <code>BaseClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BaseClustering</code>()</p>
 </blockquote>
 <p>Base class to perform clustering on a collection of molecules.
 Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><code>KMeansClustering</code></a>, <a href="/molcluster/clustering.html#HDBSCANClustering"><code>HDBSCANClustering</code></a>, <a href="/molcluster/clustering.html#ButinaClustering"><code>ButinaClustering</code></a> to cluster molecules</p>
@@ -120,7 +105,7 @@ Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><cod
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="KMeansClustering" class="doc_header"><code>class</code> <code>KMeansClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L66" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>KMeansClustering</code>(<strong><code>dataset</code></strong>:<code>array</code>) :: <a href="/molcluster/clustering.html#BaseClustering"><code>BaseClustering</code></a></p>
+<h2 id="KMeansClustering" class="doc_header"><code>class</code> <code>KMeansClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L66" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>KMeansClustering</code>(<strong><code>dataset</code></strong>:<code>array</code>) :: <a href="/molcluster/clustering.html#BaseClustering"><code>BaseClustering</code></a></p>
 </blockquote>
 <p>Performs k-means clustering on a dataset of molecules</p>
 
@@ -145,7 +130,7 @@ Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><cod
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="KMeansClustering.cluster" class="doc_header"><code>KMeansClustering.cluster</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>KMeansClustering.cluster</code>(<strong><code>n_clusters</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="KMeansClustering.cluster" class="doc_header"><code>KMeansClustering.cluster</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>KMeansClustering.cluster</code>(<strong><code>n_clusters</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Run k-means on the dataset</p>
 <p>Arguments:</p>
@@ -199,7 +184,7 @@ Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><cod
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="HDBSCANClustering" class="doc_header"><code>class</code> <code>HDBSCANClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L151" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>HDBSCANClustering</code>(<strong><code>dataset</code></strong>:<code>array</code>) :: <a href="/molcluster/clustering.html#BaseClustering"><code>BaseClustering</code></a></p>
+<h2 id="HDBSCANClustering" class="doc_header"><code>class</code> <code>HDBSCANClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L151" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>HDBSCANClustering</code>(<strong><code>dataset</code></strong>:<code>array</code>) :: <a href="/molcluster/clustering.html#BaseClustering"><code>BaseClustering</code></a></p>
 </blockquote>
 <p>Performs HDBSCAN clustering on a dataset of molecules</p>
 
@@ -224,7 +209,7 @@ Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><cod
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="HDBSCANClustering.cluster" class="doc_header"><code>HDBSCANClustering.cluster</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L157" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>HDBSCANClustering.cluster</code>(<strong><code>min_cluster_size</code></strong>:<code>int</code>=<em><code>5</code></em>, <strong><code>min_samples</code></strong>:<code>int</code>=<em><code>None</code></em>, <strong><code>metric</code></strong>:<code>str</code>=<em><code>'jaccard'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="HDBSCANClustering.cluster" class="doc_header"><code>HDBSCANClustering.cluster</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L157" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>HDBSCANClustering.cluster</code>(<strong><code>min_cluster_size</code></strong>:<code>int</code>=<em><code>5</code></em>, <strong><code>min_samples</code></strong>:<code>int</code>=<em><code>None</code></em>, <strong><code>metric</code></strong>:<code>str</code>=<em><code>'jaccard'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Run HDBSCAN clustering on the dataset</p>
 <p>Arguments:</p>
@@ -288,7 +273,7 @@ Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><cod
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ButinaClustering" class="doc_header"><code>class</code> <code>ButinaClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L207" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ButinaClustering</code>(<strong><code>dataset</code></strong>, <strong><code>fp_type</code></strong>=<em><code>'rdkit'</code></em>) :: <a href="/molcluster/clustering.html#BaseClustering"><code>BaseClustering</code></a></p>
+<h2 id="ButinaClustering" class="doc_header"><code>class</code> <code>ButinaClustering</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L207" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ButinaClustering</code>(<strong><code>dataset</code></strong>, <strong><code>fp_type</code></strong>=<em><code>'rdkit'</code></em>) :: <a href="/molcluster/clustering.html#BaseClustering"><code>BaseClustering</code></a></p>
 </blockquote>
 <p>Performs Butina clustering</p>
 <p>See original publication at: <a href="https://github.com/PatWalters/clusterama">https://github.com/PatWalters/clusterama</a></p>
@@ -314,7 +299,7 @@ Use children classes <a href="/molcluster/clustering.html#KMeansClustering"><cod
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ButinaClustering.cluster" class="doc_header"><code>ButinaClustering.cluster</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ButinaClustering.cluster</code>(<strong><code>sim_cutoff</code></strong>=<em><code>0.8</code></em>)</p>
+<h4 id="ButinaClustering.cluster" class="doc_header"><code>ButinaClustering.cluster</code><a href="https://github.com/marcossantanaioc/molcluster/tree/master/molcluster/unsupervised_learning/clustering.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ButinaClustering.cluster</code>(<strong><code>sim_cutoff</code></strong>=<em><code>0.8</code></em>)</p>
 </blockquote>
 <p>Run Butina clustering on the dataset</p>
 <p>Arguments:</p>

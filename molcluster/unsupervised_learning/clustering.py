@@ -16,7 +16,7 @@ import optuna
 from fastcore.basics import *
 from fastcore.foundation import *
 from fastcore.meta import *
-from .typing_basics import *
+from ..typing_basics import *
 
 from sklearn.cluster import KMeans
 from rdkit.ML.Cluster import Butina
