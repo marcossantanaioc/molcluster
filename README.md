@@ -4,7 +4,7 @@
 
 ## How to use
 
-You can use anyfunction to generate descriptors for the molecules in the dataset. For instance, we could use morgan fingerprints from RDkit to generate a vector of 1024 bits for each molecule. 
+You can use any function to generate descriptors for the molecules in the dataset. For instance, we could use [Morgan fingerprints](https://pubs.acs.org/doi/10.1021/ci100050t) from [RDkit](https://www.rdkit.org/docs/GettingStartedInPython.html) to generate a vector of 1024 bits for each molecule. 
 
 ```python
 from molcluster.unsupervised_learning.clustering import KMeansClustering, HDBSCANClustering, ButinaClustering
