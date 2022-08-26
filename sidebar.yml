@@ -1,0 +1,8 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - chem_basics.ipynb
+      - clustering.ipynb
+      - dimensionality_reduction.ipynb
+      - typing_basics.ipynb
