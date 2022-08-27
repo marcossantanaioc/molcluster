@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['BaseClustering', 'HierarchicalClustering', 'KMeansClustering', 'HDBSCANClustering', 'ButinaClustering']
 
-# %% ../../notebooks/clustering.ipynb 2
+# %% ../../notebooks/clustering.ipynb 3
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -31,7 +31,7 @@ from rdkit.Chem.AtomPairs import Pairs
 
 from kneed import KneeLocator
 
-# %% ../../notebooks/clustering.ipynb 4
+# %% ../../notebooks/clustering.ipynb 5
 class BaseClustering:
     
     """Base class to perform clustering on a collection of molecules. 
@@ -62,7 +62,7 @@ class BaseClustering:
         if isinstance(i, Sequence) and not isinstance(i, str):
             self._labels = i
 
-# %% ../../notebooks/clustering.ipynb 6
+# %% ../../notebooks/clustering.ipynb 7
 class HierarchicalClustering(BaseClustering):
     
     """Performs agglomerative hierarchical clustering on a dataset of molecules
@@ -227,7 +227,7 @@ class HierarchicalClustering(BaseClustering):
 #         plt.tight_layout()
 #         plt.show()
 
-# %% ../../notebooks/clustering.ipynb 7
+# %% ../../notebooks/clustering.ipynb 8
 class KMeansClustering(BaseClustering):
     
     """Performs k-means clustering on a dataset of molecules
@@ -332,7 +332,7 @@ class KMeansClustering(BaseClustering):
         plt.tight_layout()
         plt.show()
 
-# %% ../../notebooks/clustering.ipynb 10
+# %% ../../notebooks/clustering.ipynb 11
 class HDBSCANClustering(BaseClustering):
     
     """Performs HDBSCAN clustering on a dataset of molecules
@@ -431,7 +431,7 @@ class HDBSCANClustering(BaseClustering):
     
     
 
-# %% ../../notebooks/clustering.ipynb 13
+# %% ../../notebooks/clustering.ipynb 14
 class ButinaClustering(BaseClustering):
     
     """Performs Butina clustering

@@ -14,15 +14,15 @@ fingerprints](https://pubs.acs.org/doi/10.1021/ci100050t) from
 generate a vector of 1024 bits for each molecule.
 
 ``` python
-from molcluster.unsupervised_learning.clustering import KMeansClustering, HDBSCANClustering, ButinaClustering
+from molcluster.unsupervised_learning.clustering import KMeansClustering, HDBSCANClustering, ButinaClustering, HierarchicalClustering
 from molcluster.unsupervised_learning.transform import UMAPTransform, PCATransform
 ```
 
-    2022-08-26 23:41:02.579854: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-    2022-08-26 23:41:02.579929: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+    2022-08-27 00:14:45.524471: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+    2022-08-27 00:14:45.524531: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 
 ``` python
-data = pd.read_csv('data/fxa_processed.csv')
+data = pd.read_csv('../data/fxa_processed.csv')
 ```
 
 ``` python
@@ -115,3 +115,13 @@ np.unique(labels)[0:5]
 ```
 
     array([-1,  0,  1,  2,  3])
+
+## Agglomerative clustering (e.g. using Ward’s method)
+
+``` python
+clustering_agg = HierarchicalClustering(X)
+labels = clustering_agg.cluster(n_clusters=5, linkage='ward')
+labels[0:5]
+```
+
+    array([4, 4, 4, 2, 2])
