@@ -18,8 +18,8 @@ from molcluster.unsupervised_learning.clustering import KMeansClustering, HDBSCA
 from molcluster.unsupervised_learning.transform import UMAPTransform, PCATransform
 ```
 
-    2022-08-27 00:14:45.524471: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-    2022-08-27 00:14:45.524531: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+    2022-08-28 11:46:45.842314: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+    2022-08-28 11:46:45.842380: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 
 ``` python
 data = pd.read_csv('../data/fxa_processed.csv')
@@ -42,11 +42,11 @@ pca_embeddings = pca_reducer.reduce(n_components=2)
 pca_embeddings[0:5]
 ```
 
-    array([[1.21513293, 0.45870568],
-           [1.44554407, 0.63347132],
-           [1.51317977, 0.86823372],
-           [3.77445719, 1.29622038],
-           [3.65415942, 1.8048388 ]])
+    array([[1.21502428, 0.45049712],
+           [1.44545485, 0.62502843],
+           [1.51305965, 0.85847056],
+           [3.77443421, 1.29465267],
+           [3.65428094, 1.80748745]])
 
 ## UMAP
 
@@ -61,11 +61,11 @@ umap_embeddings[0:5]
 
     OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
 
-    array([[ 4.9371557, 12.973072 ],
-           [ 4.871474 , 12.888872 ],
-           [ 4.8225975, 12.891677 ],
-           [18.73431  ,  5.9136844],
-           [20.586678 ,  6.8356805]], dtype=float32)
+    array([[ 3.7038584,  5.6686788],
+           [ 3.642379 ,  5.562135 ],
+           [ 3.5490208,  5.5986824],
+           [16.006702 ,  3.189072 ],
+           [15.276152 ,  1.054887 ]], dtype=float32)
 
 # Clustering
 
@@ -77,7 +77,7 @@ labels = clustering_kmeans.cluster(n_clusters=10)
 labels[0:5]
 ```
 
-    array([8, 8, 8, 8, 8], dtype=int32)
+    array([3, 3, 3, 6, 6], dtype=int32)
 
 ### Using the elbow method to select the optimal number of clusters
 
@@ -120,8 +120,19 @@ np.unique(labels)[0:5]
 
 ``` python
 clustering_agg = HierarchicalClustering(X)
-labels = clustering_agg.cluster(n_clusters=5, linkage='ward')
+```
+
+``` python
+labels = clustering_agg.cluster(n_clusters=None, distance_threshold=0.25, linkage='ward')
 labels[0:5]
 ```
 
-    array([4, 4, 4, 2, 2])
+    array([2610, 3227, 2717, 3073, 2684])
+
+### Plotting a dendrogram
+
+``` python
+clustering_agg.plot_dendrogram(truncate_mode="level", p=5)
+```
+
+![](index_files/figure-gfm/cell-17-output-1.png)

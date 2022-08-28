@@ -185,49 +185,64 @@ class HierarchicalClustering(BaseClustering):
         self._labels = cls.labels_
         return self._labels
     
-    def plot_dendogram(self, n_clusters:List, figsize:Tuple=(12,9), **kwargs):
-        raise NotImplementedError
-
-#         self.inertias = []
-#         for n in n_clusters:
-#             self.cluster(n, **kwargs)   
-#             inertia = self.clusterer.inertia_
-#             self.inertias.append(inertia)
+    def plot_dendrogram(self, figsize:tuple=(12,9), **kwargs):
+        
+        """Plots the dendrogram generated from the hierarchical clustering.
+        
+        Arguments:
             
-#         # Find elbow
-#         params = {"curve": "convex",
-#                     "direction": "decreasing"}
+        figsize : tuple (default=(12,9))
+            Figure size for the plot.
+            
+            
+        """
         
-#         knee_finder = KneeLocator(n_clusters, self.inertias, **params)
-#         self.elbow_value = knee_finder.elbow
-        
-#         # Plot Elbow
-#         sns.set_context('paper',font_scale=2.0)
-#         sns.set_style('whitegrid')
-        
-#         fig = plt.figure(figsize=figsize)
-#         # Dendogram for Heirarchical Clustering
-#         import scipy.cluster.hierarchy as shc
-#         dend = shc.dendrogram(shc.linkage(cluster_df, method='ward'))
+        from scipy.cluster.hierarchy import dendrogram
+       
+        model = self.clusterer
+
+        # Plot Elbow
+        sns.set_context('paper',font_scale=2.5)
+        sns.set_style('whitegrid')
+
+        fig = plt.figure(figsize=figsize)
+        ax = plt.gca()
+
+        # Create linkage matrix and then plot the dendrogram
+
+        # create the counts of samples under each node
+        counts = np.zeros(model.children_.shape[0])
+        n_samples = len(model.labels_)
+        for i, merge in enumerate(model.children_):
+            current_count = 0
+            for child_idx in merge:
+                if child_idx < n_samples:
+                    current_count += 1  # leaf node
+                else:
+                    current_count += counts[child_idx - n_samples]
+            counts[i] = current_count
+
+        linkage_matrix = np.column_stack(
+            [model.children_, model.distances_, counts]
+        ).astype(float)
+
+        # Plot the corresponding dendrogram
+        dendrogram(linkage_matrix, ax=ax,**kwargs)
+
+        ax.set_xlabel('Number of compounds in node (or index of point if no parenthesis).',fontsize=14)
 
 
-#         ax.set_xlabel('Number of clusters (K)')
-#         ax.set_ylabel('Distortion')
-#         sns.despine(right=True,top=True)
-#         plt.title('K-means Elbow method',fontweight='bold',fontsize=22)
-        
-#         if self.elbow_value is not None:
-#             elbow_label = "Elbow at $K={}$".format(self.elbow_value)      
-#             ax.axvline(self.elbow_value, c='k', linestyle="--",label=elbow_label)
-#             ax.legend(loc="best", fontsize=18, frameon=True)
-#         for i in ax.spines.items():
-#             i[1].set_linewidth(1.5)
-#             i[1].set_color('k')
+        ax.set_ylabel(f'{model.affinity.capitalize()} distance',fontsize=14)
+        sns.despine(right=True,top=True)
+        plt.title('Dendrogram',fontweight='bold',fontsize=20)
+        ax.grid(False)
+        ax.set_xticklabels(ax.get_xticks(), size = 12)
+        for i in ax.spines.items():
+            i[1].set_linewidth(1.5)
+            i[1].set_color('k')
+        plt.tight_layout()
 
-#         plt.tight_layout()
-#         plt.show()
-
-# %% ../../notebooks/clustering.ipynb 8
+# %% ../../notebooks/clustering.ipynb 10
 class KMeansClustering(BaseClustering):
     
     """Performs k-means clustering on a dataset of molecules
@@ -332,7 +347,7 @@ class KMeansClustering(BaseClustering):
         plt.tight_layout()
         plt.show()
 
-# %% ../../notebooks/clustering.ipynb 11
+# %% ../../notebooks/clustering.ipynb 13
 class HDBSCANClustering(BaseClustering):
     
     """Performs HDBSCAN clustering on a dataset of molecules
@@ -431,7 +446,7 @@ class HDBSCANClustering(BaseClustering):
     
     
 
-# %% ../../notebooks/clustering.ipynb 14
+# %% ../../notebooks/clustering.ipynb 16
 class ButinaClustering(BaseClustering):
     
     """Performs Butina clustering
