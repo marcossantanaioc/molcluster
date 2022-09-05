@@ -18,9 +18,6 @@ from molcluster.unsupervised_learning.clustering import KMeansClustering, HDBSCA
 from molcluster.unsupervised_learning.transform import UMAPTransform, PCATransform
 ```
 
-    2022-08-28 11:46:45.842314: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-    2022-08-28 11:46:45.842380: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-
 ``` python
 data = pd.read_csv('../data/fxa_processed.csv')
 ```
@@ -42,11 +39,11 @@ pca_embeddings = pca_reducer.reduce(n_components=2)
 pca_embeddings[0:5]
 ```
 
-    array([[1.21502428, 0.45049712],
-           [1.44545485, 0.62502843],
-           [1.51305965, 0.85847056],
-           [3.77443421, 1.29465267],
-           [3.65428094, 1.80748745]])
+    array([[1.2142797 , 0.46797618],
+           [1.44474151, 0.64233027],
+           [1.51234623, 0.87651611],
+           [3.77443183, 1.29613805],
+           [3.654247  , 1.80719829]])
 
 ## UMAP
 
@@ -55,17 +52,15 @@ umap_reducer = UMAPTransform(X)
 ```
 
 ``` python
-umap_embeddings = umap_reducer.reduce(n_neighbors=10, min_dist=0.25, metric='euclidean')
+umap_embeddings = umap_reducer.reduce(n_neighbors=50, min_dist=0.25, metric='euclidean')
 umap_embeddings[0:5]
 ```
 
-    OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
-
-    array([[ 3.7038584,  5.6686788],
-           [ 3.642379 ,  5.562135 ],
-           [ 3.5490208,  5.5986824],
-           [16.006702 ,  3.189072 ],
-           [15.276152 ,  1.054887 ]], dtype=float32)
+    array([[ 1.5952768 ,  4.4337296 ],
+           [ 1.5278653 ,  4.5167828 ],
+           [ 1.3860604 ,  4.543414  ],
+           [ 1.7233835 , -1.6080631 ],
+           [ 0.79702693, -1.1479477 ]], dtype=float32)
 
 # Clustering
 
@@ -77,7 +72,7 @@ labels = clustering_kmeans.cluster(n_clusters=10)
 labels[0:5]
 ```
 
-    array([3, 3, 3, 6, 6], dtype=int32)
+    array([0, 0, 0, 3, 3], dtype=int32)
 
 ### Using the elbow method to select the optimal number of clusters
 
@@ -114,8 +109,6 @@ labels = clustering_hdbscan.cluster(min_cluster_size=5,min_samples=1,metric='euc
 np.unique(labels)[0:5]
 ```
 
-    array([-1,  0,  1,  2,  3])
-
 ## Agglomerative clustering (e.g. using Ward’s method)
 
 ``` python
@@ -127,12 +120,8 @@ labels = clustering_agg.cluster(n_clusters=None, distance_threshold=0.25, linkag
 labels[0:5]
 ```
 
-    array([2610, 3227, 2717, 3073, 2684])
-
 ### Plotting a dendrogram
 
 ``` python
 clustering_agg.plot_dendrogram(truncate_mode="level", p=5)
 ```
-
-![](index_files/figure-gfm/cell-17-output-1.png)

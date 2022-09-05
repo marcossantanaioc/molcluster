@@ -4,10 +4,6 @@
 __all__ = ['ChemVisualiser']
 
 # %% ../notebooks/viz.ipynb 2
-import plotly.express as px
-
-import molplotly
-
 import pandas as pd
 
 import numpy as np
@@ -64,6 +60,7 @@ class ChemVisualiser:
 
 #     def plot_chemical_space(self, x: str, y: str, labels: str=None, size: str=None, height:int=200, width:int=100):
 #         # TODO
+# IMPLEMENT INTERACTIVE PLOT with dash
 #         raise NotImplementedError
 #         # generate a scatter plot
 #         fig = px.scatter(self.data, x=x, y=y, color=labels,size=size, **kwargs)
