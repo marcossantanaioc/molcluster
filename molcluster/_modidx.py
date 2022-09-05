@@ -68,4 +68,8 @@ d = { 'settings': { 'branch': 'master',
                                                             'molcluster.unsupervised_learning.transform.UMAPTransform.__init__': ( 'dimensionality_reduction.html#__init__',
                                                                                                                                    'molcluster/unsupervised_learning/transform.py'),
                                                             'molcluster.unsupervised_learning.transform.UMAPTransform.reduce': ( 'dimensionality_reduction.html#reduce',
-                                                                                                                                 'molcluster/unsupervised_learning/transform.py')}}}
+                                                                                                                                 'molcluster/unsupervised_learning/transform.py')},
+            'molcluster.viz': { 'molcluster.viz.ChemVisualiser': ('viz.html#chemvisualiser', 'molcluster/viz.py'),
+                                'molcluster.viz.ChemVisualiser.__init__': ('viz.html#__init__', 'molcluster/viz.py'),
+                                'molcluster.viz.ChemVisualiser.plot_simple_chemical_space': ( 'viz.html#plot_simple_chemical_space',
+                                                                                              'molcluster/viz.py')}}}

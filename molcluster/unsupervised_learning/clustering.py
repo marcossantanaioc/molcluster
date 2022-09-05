@@ -31,6 +31,8 @@ from rdkit.Chem.AtomPairs import Pairs
 
 from kneed import KneeLocator
 
+from ..viz import ChemVisualiser
+
 # %% ../../notebooks/clustering.ipynb 5
 class BaseClustering:
     
@@ -346,6 +348,13 @@ class KMeansClustering(BaseClustering):
 
         plt.tight_layout()
         plt.show()
+     
+#     @staticmethod
+#     def plot_clusters(data, smiles_col, id_col):
+#         visu = ChemVisualiser(data, id_col, smiles_col)
+#         hue = self._labels
+#         visu.plot_simple_chemical_space(hue=hue)
+        
 
 # %% ../../notebooks/clustering.ipynb 13
 class HDBSCANClustering(BaseClustering):
@@ -444,7 +453,12 @@ class HDBSCANClustering(BaseClustering):
         
         return hdbscan.validity_index(X, labels, metric=metric, d=d, per_cluster_scores=per_cluster_scores, **kwargs)
     
-    
+     
+#     @staticmethod
+#     def plot_clusters(data, smiles_col, id_col):
+#         visu = ChemVisualiser(data, id_col, smiles_col)
+        
+#         visu.plot_simple_chemical_space()    
 
 # %% ../../notebooks/clustering.ipynb 16
 class ButinaClustering(BaseClustering):
