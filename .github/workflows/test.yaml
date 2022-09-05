@@ -5,5 +5,3 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps: [uses: fastai/workflows/nbdev-ci@master]
-    with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
