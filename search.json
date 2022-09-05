@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "unsupervised_learning.transform.html",
+    "href": "unsupervised_learning.transform.html",
+    "title": "dimensionality_reduction",
+    "section": "",
+    "text": "source\n\nBaseTransform\n\n BaseTransform ()\n\nBase class to perform dimensionality reduction on a dataset.\n\nsource\n\n\nPCATransform\n\n PCATransform (dataset:<built-infunctionarray>)\n\nCalculate UMAP embeddings\n\nsource\n\n\nUMAPTransform\n\n UMAPTransform (dataset:<built-infunctionarray>)\n\nCalculate UMAP embeddings"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "molcluster",
+    "section": "",
+    "text": "pip install molcluster\nYou can use any function to generate descriptors for the molecules in the dataset. For instance, we could use Morgan fingerprints from RDkit to generate a vector of 1024 bits for each molecule.\n\nfrom molcluster.unsupervised_learning.clustering import KMeansClustering, HDBSCANClustering, ButinaClustering, HierarchicalClustering\nfrom molcluster.unsupervised_learning.transform import UMAPTransform, PCATransform\n\n\ndata = pd.read_csv('../data/fxa_processed.csv')\n\n\nX = np.array([Chem.AllChem.GetMorganFingerprintAsBitVect(x, radius=1024) for x in list(map(Chem.MolFromSmiles, data.processed_smiles.values))])"
+  },
+  {
+    "objectID": "index.html#principal-component-analysis-pca",
+    "href": "index.html#principal-component-analysis-pca",
+    "title": "molcluster",
+    "section": "Principal component analysis (PCA)",
+    "text": "Principal component analysis (PCA)\n\npca_reducer = PCATransform(X)\n\n\npca_embeddings = pca_reducer.reduce(n_components=2)\npca_embeddings[0:5]\n\narray([[1.2142797 , 0.46797618],\n       [1.44474151, 0.64233027],\n       [1.51234623, 0.87651611],\n       [3.77443183, 1.29613805],\n       [3.654247  , 1.80719829]])"
+  },
+  {
+    "objectID": "index.html#umap",
+    "href": "index.html#umap",
+    "title": "molcluster",
+    "section": "UMAP",
+    "text": "UMAP\n\numap_reducer = UMAPTransform(X)\n\n\numap_embeddings = umap_reducer.reduce(n_neighbors=50, min_dist=0.25, metric='euclidean')\numap_embeddings[0:5]\n\narray([[ 1.5952768 ,  4.4337296 ],\n       [ 1.5278653 ,  4.5167828 ],\n       [ 1.3860604 ,  4.543414  ],\n       [ 1.7233835 , -1.6080631 ],\n       [ 0.79702693, -1.1479477 ]], dtype=float32)"
+  },
+  {
+    "objectID": "index.html#kmeans-clustering-with-10-clusters",
+    "href": "index.html#kmeans-clustering-with-10-clusters",
+    "title": "molcluster",
+    "section": "Kmeans clustering with 10 clusters",
+    "text": "Kmeans clustering with 10 clusters\n\nclustering_kmeans = KMeansClustering(X)\nlabels = clustering_kmeans.cluster(n_clusters=10)\nlabels[0:5]\n\narray([0, 0, 0, 3, 3], dtype=int32)\n\n\n\nUsing the elbow method to select the optimal number of clusters\n\nclustering_kmeans.elbow_method(n_clusters=np.arange(2, 20))"
+  },
+  {
+    "objectID": "index.html#butina-clustering-with-similarity-threshold-0.7",
+    "href": "index.html#butina-clustering-with-similarity-threshold-0.7",
+    "title": "molcluster",
+    "section": "Butina clustering with similarity threshold > 0.7",
+    "text": "Butina clustering with similarity threshold > 0.7\n\nmol_list = data.processed_smiles.values\n\n\nclustering_butina = ButinaClustering(mol_list)\nlabels = clustering_butina.cluster(sim_cutoff=0.7)\nlabels[0:5]\n\n\n\n\n[34, 34, 34, 1, 131]"
+  },
+  {
+    "objectID": "index.html#hdbscan-clustering",
+    "href": "index.html#hdbscan-clustering",
+    "title": "molcluster",
+    "section": "HDBSCAN clustering",
+    "text": "HDBSCAN clustering\n\nclustering_hdbscan = HDBSCANClustering(X)\nlabels = clustering_hdbscan.cluster(min_cluster_size=5,min_samples=1,metric='euclidean')\n\n\nnp.unique(labels)[0:5]"
+  },
+  {
+    "objectID": "index.html#agglomerative-clustering-e.g.-using-wards-method",
+    "href": "index.html#agglomerative-clustering-e.g.-using-wards-method",
+    "title": "molcluster",
+    "section": "Agglomerative clustering (e.g. using Ward’s method)",
+    "text": "Agglomerative clustering (e.g. using Ward’s method)\n\nclustering_agg = HierarchicalClustering(X)\n\n\nlabels = clustering_agg.cluster(n_clusters=None, distance_threshold=0.25, linkage='ward')\nlabels[0:5]\n\n\nPlotting a dendrogram\n\nclustering_agg.plot_dendrogram(truncate_mode=\"level\", p=5)"
+  },
+  {
+    "objectID": "unsupervised_learning.clustering.html",
+    "href": "unsupervised_learning.clustering.html",
+    "title": "clustering",
+    "section": "",
+    "text": "source\n\nBaseClustering\n\n BaseClustering ()\n\nBase class to perform clustering on a collection of molecules. Use children classes KMeansClustering, HDBSCANClustering, ButinaClustering to cluster molecules\n\nsource\n\n\nHierarchicalClustering\n\n HierarchicalClustering (dataset:Union[numpy.__array_like._SupportsArray[n\n                         umpy.dtype],numpy.__nested_sequence._NestedSequen\n                         ce[numpy.__array_like._SupportsArray[numpy.dtype]\n                         ],bool,int,float,complex,str,bytes,numpy.__nested\n                         _sequence._NestedSequence[Union[bool,int,float,co\n                         mplex,str,bytes]]])\n\nPerforms agglomerative hierarchical clustering on a dataset of molecules\nAttributes:\ndataset : numpy.array An array of features with shape (n,p), where n is the number of molecules and p is the number of descriptors.\nMethods:\ncluster(n_clusters:int) Performs k-means clustering on ´self.dataset´\n\nsource\n\n\nHierarchicalClustering.cluster\n\n HierarchicalClustering.cluster (n_clusters:int=2,\n                                 affinity:str='euclidean', memory=None,\n                                 connectivity=None,\n                                 compute_full_tree='auto', linkage='ward',\n                                 distance_threshold=None,\n                                 compute_distances=False)\n\nClustering molecules using different hierarchical methods available on scikit-learn.\nArguments:\nn_clusters : int or None, default=2\n    The number of clusters to find. It must be ``None`` if\n    ``distance_threshold`` is not ``None``.\n\naffinity : str or callable, default='euclidean'\n    Metric used to compute the linkage. Can be \"euclidean\", \"l1\", \"l2\",\n    \"manhattan\", \"cosine\", or \"precomputed\".\n    If linkage is \"ward\", only \"euclidean\" is accepted.\n    If \"precomputed\", a distance matrix (instead of a similarity matrix)\n    is needed as input for the fit method.\n\nmemory : str or object with the joblib.Memory interface, default=None\n    Used to cache the output of the computation of the tree.\n    By default, no caching is done. If a string is given, it is the\n    path to the caching directory.\n\nconnectivity : array-like or callable, default=None\n    Connectivity matrix. Defines for each sample the neighboring\n    samples following a given structure of the data.\n    This can be a connectivity matrix itself or a callable that transforms\n    the data into a connectivity matrix, such as derived from\n    `kneighbors_graph`. Default is ``None``, i.e, the\n    hierarchical clustering algorithm is unstructured.\n\ncompute_full_tree : 'auto' or bool, default='auto'\n    Stop early the construction of the tree at ``n_clusters``. This is\n    useful to decrease computation time if the number of clusters is not\n    small compared to the number of samples. This option is useful only\n    when specifying a connectivity matrix. Note also that when varying the\n    number of clusters and using caching, it may be advantageous to compute\n    the full tree. It must be ``True`` if ``distance_threshold`` is not\n    ``None``. By default `compute_full_tree` is \"auto\", which is equivalent\n    to `True` when `distance_threshold` is not `None` or that `n_clusters`\n    is inferior to the maximum between 100 or `0.02 * n_samples`.\n    Otherwise, \"auto\" is equivalent to `False`.\n\nlinkage : {'ward', 'complete', 'average', 'single'}, default='ward'\n    Which linkage criterion to use. The linkage criterion determines which\n    distance to use between sets of observation. The algorithm will merge\n    the pairs of cluster that minimize this criterion.\n    - 'ward' minimizes the variance of the clusters being merged.\n    - 'average' uses the average of the distances of each observation of\n      the two sets.\n    - 'complete' or 'maximum' linkage uses the maximum distances between\n      all observations of the two sets.\n    - 'single' uses the minimum of the distances between all observations\n      of the two sets.\n\ndistance_threshold : float, default=None\n    The linkage distance threshold above which, clusters will not be\n    merged. If not ``None``, ``n_clusters`` must be ``None`` and\n    ``compute_full_tree`` must be ``True``.\n\ncompute_distances : bool, default=False\n    Computes distances between clusters even if `distance_threshold` is not\n    used. This can be used to make dendrogram visualization, but introduces\n    a computational and memory overhead.\n\nReturns:\n\n    labels : np.array\n        Clustering labels\n\nsource\n\n\nHierarchicalClustering.plot_dendrogram\n\n HierarchicalClustering.plot_dendrogram (figsize:tuple=(12, 9), **kwargs)\n\nPlots the dendrogram generated from the hierarchical clustering.\nArguments:\nfigsize : tuple (default=(12,9)) Figure size for the plot.\n\nsource\n\n\nKMeansClustering\n\n KMeansClustering (dataset:Union[numpy.__array_like._SupportsArray[numpy.d\n                   type],numpy.__nested_sequence._NestedSequence[numpy.__a\n                   rray_like._SupportsArray[numpy.dtype]],bool,int,float,c\n                   omplex,str,bytes,numpy.__nested_sequence._NestedSequenc\n                   e[Union[bool,int,float,complex,str,bytes]]])\n\nPerforms k-means clustering on a dataset of molecules\nAttributes:\ndataset : numpy.array An array of features with shape (n,p), where n is the number of molecules and p is the number of descriptors.\nMethods:\ncluster(n_clusters:int) Performs k-means clustering on ´self.dataset´\nelbow_method(n_clusters:List, figsize:Tuple) Uses the elbow method to find the optimal number of clusters\n\nsource\n\n\nKMeansClustering.cluster\n\n KMeansClustering.cluster (n_clusters:int=10, **kwargs)\n\nRun k-means on the dataset\nArguments:\nn_clusters : int (default=10)\n    Number of clusters\nKeyword arguments: max_iter : int (default=5) n_init : int (default=5) init : str (default=‘k-means++’) random_state : int (default=None)\nReturns:\nlabels : np.array\n    Clustering labels\n\nsource\n\n\nHDBSCANClustering\n\n HDBSCANClustering (dataset:Union[numpy.__array_like._SupportsArray[numpy.\n                    dtype],numpy.__nested_sequence._NestedSequence[numpy._\n                    _array_like._SupportsArray[numpy.dtype]],bool,int,floa\n                    t,complex,str,bytes,numpy.__nested_sequence._NestedSeq\n                    uence[Union[bool,int,float,complex,str,bytes]]])\n\nPerforms HDBSCAN clustering on a dataset of molecules\nAttributes:\ndataset : numpy.array\n    An array of features with shape (n,p), where n is the number of molecules and p is the number of descriptors.\nMethods:\ncluster(n_clusters:int)\n    Performs k-means clustering on ´self.dataset´\n\nvalidate_clustering(X, labels)\n    Compute the density based cluster validity index for the clustering specified by labels and for each cluster in labels.\n\nsource\n\n\nHDBSCANClustering.cluster\n\n HDBSCANClustering.cluster (min_cluster_size:int=5, min_samples:int=None,\n                            metric:str='jaccard', **kwargs)\n\nRun HDBSCAN clustering on the dataset\nArguments:\nmin_cluster_size : int, optional (default=5) The minimum size of clusters; single linkage splits that contain fewer points than this will be considered points “falling out” of a cluster rather than a cluster splitting into two new clusters.\nmin_samples : int, optional (default=None) The number of samples in a neighbourhood for a point to be considered a core point.\nmetric : string, or callable, optional (default=‘euclidean’) The metric to use when calculating distance between instances in a feature array. If metric is a string or callable, it must be one of the options allowed by metrics.pairwise.pairwise_distances for its metric parameter. If metric is “precomputed”, X is assumed to be a distance matrix and must be square.\nKeyword arguments:\nSee HDBSCAN documentation (https://hdbscan.readthedocs.io/en/latest/index.html)\nReturns:\nlabels : np.array\n    Clustering labels\n\nsource\n\n\nButinaClustering\n\n ButinaClustering (dataset:List, fp_type='rdkit')\n\nPerforms Butina clustering\nSee original publication at: https://github.com/PatWalters/clusterama\nAttributes:\ndataset : list\n    A list of SMILES.\nMethods:\ncluster(sim_cutoff:float, nbits:int, radius:int)\n    Performs Butina clustering on ´self.dataset´.\n\nget_fps(mol_list:list, nbits:int, radius:int)\n    Generate descriptors for ´self.dataset´.\n\ncluster_mols(mol_list, sim_cutoff:float, nbits:int, radius:int)\n    Cluster molecules.\n\nsource\n\n\nButinaClustering.cluster\n\n ButinaClustering.cluster (sim_cutoff:float, nbits:int=2048, radius:int=2)\n\nRun Butina clustering on the dataset\nArguments:\nsim_cutoff : float\n    The minimum Tanimoto similarity to consider for putting compounds in the same cluster\n\nnbits : int, optional (default=2048)\n    Number of bits of the fingerprints if ´fp_type´ is 'morgan2'\n\nradius : int, optional (default=2)\n    Radius of the fingerprints if ´fp_type´ is 'morgan2'\nReturns:\nlabels : np.array\n    Clustering labels"
+  },
+  {
+    "objectID": "viz.html",
+    "href": "viz.html",
+    "title": "molcluster",
+    "section": "",
+    "text": "source\n\nChemVisualiser\n\n ChemVisualiser (data:pandas.core.frame.DataFrame, id_col:str,\n                 smiles_col:str)\n\nInitialize self. See help(type(self)) for accurate signature."
+  }
+]
